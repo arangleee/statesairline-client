@@ -12,12 +12,13 @@ export default function Main() {
   const [condition, setCondition] = useState({
     departure: "ICN",
   });
-  //변수 condition 생성 - 초기값으로 departure: "ICN"
+  //변수 condition 생성 - 초기값으로 {departure: "ICN"} <-객체!
   const [flightList, setFlightList] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const search = ({ departure, destination }) => {
+    //search 함수는 인자로 출발지,도착지 정보가 담긴 객체를 받는다
     if (
       condition.departure !== departure ||
       condition.destination !== destination
@@ -28,7 +29,7 @@ export default function Main() {
       //출발지는 ICN으로 고정 -> 두번째 피연산자에 따라 true/false가 정해짐
       //도착지에 새로운 값이 들어와서 변경사항이 있을때
     ) {
-      setCondition({ departure, destination });
+      setCondition({ departure, destination }); //변경사항을 setCondition에 담아 condition을 변경한다.
     }
   };
   //condition 상태가 변경되었을 때 수행
@@ -54,6 +55,9 @@ export default function Main() {
       <main>
         <h1>여행가고 싶을 땐, States Airline</h1>
         <Search onSearch={search} />
+        {/* 메인.js에서 정의한 search 함수를 onSearch라는 속성으로 Search 컴포넌트로
+        전달한다 (search 컴포넌트에서 쓸 함수를 상태끌어올리기해서 Main.js에
+        정의함) */}
         <div className="table">
           <div className="row-header">
             <div className="col">출발</div>
@@ -64,7 +68,6 @@ export default function Main() {
           </div>
           {isLoading ? <LoadingIndicator /> : <FlightList list={flightList} />}
         </div>
-
         <div className="debug-area">
           <Debug condition={condition} />
         </div>
